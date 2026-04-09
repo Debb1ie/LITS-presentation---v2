@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>She's the IT: Women in Tech — Precious Manucom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg:#080610;--surface:#100e1e;--surface2:#1a1730;--surface3:#221f3a;
+  --border:rgba(255,180,220,.07);--border2:rgba(255,180,220,.15);
+  --text:#fdf0f5;--text-sub:rgba(253,240,245,.75);--text-muted:rgba(253,240,245,.38);
+  --rose:#f9a8c9;--rose-glow:rgba(249,168,201,.2);
+  --gold:#f0c070;--teal:#5de8cc;--lilac:#c4b5fd;
+  --nav-bg:rgba(8,6,16,.92);
+  --card-shadow:0 0 0 1px rgba(255,180,220,.1),0 32px 80px rgba(200,30,100,.2);
+  --tag-bg:rgba(249,168,201,.1);--tag-border:rgba(249,168,201,.3);
+  --photo-bg:#1a1730;--photo-border:rgba(255,180,220,.2);
+}
+:root[data-theme="light"]{
+  --bg:#fdf6f9;--surface:#fff;--surface2:#fce8f1;--surface3:#f8d5e8;
+  --border:rgba(180,40,100,.08);--border2:rgba(180,40,100,.18);
+  --text:#1a0a12;--text-sub:#2e1220;--text-muted:rgba(26,10,18,.45);
+  --rose:#c2185b;--rose-glow:rgba(194,24,91,.12);
+  --gold:#a0620e;--teal:#0f7a66;--lilac:#6d28d9;
+  --nav-bg:rgba(253,246,249,.94);
+  --card-shadow:0 0 0 1px rgba(180,40,100,.1),0 16px 50px rgba(180,40,100,.1);
+  --tag-bg:rgba(194,24,91,.08);--tag-border:rgba(194,24,91,.25);
+  --photo-bg:#f8d5e8;--photo-border:rgba(194,24,91,.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;transition:background .4s,color .4s}
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+[data-theme="light"] #cv{opacity:.06}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;z-index:300;background:linear-gradient(90deg,var(--rose),var(--gold),var(--teal));transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* TOPBAR */
+#top{position:fixed;top:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 1.2rem;background:var(--bg);border-bottom:1px solid var(--border);z-index:200;backdrop-filter:blur(14px)}
+#top-l{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+#top-r{display:flex;align-items:center;gap:.8rem}
+#sc{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text-muted)}
+#sc b{color:var(--rose)}
+.icon-btn{width:27px;height:27px;border-radius:7px;background:var(--surface2);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--surface3);border-color:var(--rose)}
+.icon-btn svg{width:13px;height:13px;stroke:var(--text-muted);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.icon-btn:hover svg{stroke:var(--rose)}
+.ic-compress{display:none}
+#tog{width:36px;height:19px;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);cursor:pointer;position:relative;flex-shrink:0}
+#tog::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--rose);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+[data-theme="light"] #tog::after{transform:translateX(17px)}
+
+/* NAV ZONES */
+.nz{position:fixed;top:44px;bottom:44px;width:9%;z-index:180;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .25s}
+.nz:hover{opacity:1}
+.nz.L{left:0}.nz.R{right:0}
+.arr{width:42px;height:42px;border-radius:50%;background:var(--nav-bg);border:1px solid var(--border2);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:1rem;transition:transform .2s}
+.nz.L:hover .arr{transform:translateX(-4px)}
+.nz.R:hover .arr{transform:translateX(4px)}
+@media(hover:none){.nz{opacity:.22;width:13%}.arr{width:36px;height:36px}}
+
+/* SLIDE WRAPPER — KEY FIX */
+#sw{position:fixed;top:44px;bottom:44px;left:0;right:0;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  display:flex;align-items:stretch;justify-content:center;
+  padding:.6rem 2.5%;
+  opacity:0;transform:translateY(24px) scale(.975);
+  pointer-events:none;
+  transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);
+  z-index:1;
+}
+.slide.active{opacity:1;transform:none;pointer-events:all;z-index:2}
+.slide.out{opacity:0;transform:translateY(-24px) scale(.975);pointer-events:none}
+
+/* CARD — fills the slide */
+.card{
+  width:100%;max-width:1240px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  position:relative;overflow:hidden;
+  box-shadow:var(--card-shadow);
+  display:flex;flex-direction:column;
+  /* FILL HEIGHT */
+  flex:1;min-height:0;
+}
+
+/* SHARED */
+.tag{display:inline-flex;align-items:center;padding:.25rem .8rem;border-radius:999px;background:var(--tag-bg);border:1px solid var(--tag-border);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);width:fit-content;flex-shrink:0}
+.stitle{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.1;color:var(--text)}
+.divider{height:1px;background:linear-gradient(90deg,var(--rose),transparent);opacity:.28;margin:.5rem 0 1rem;max-width:160px}
+.section-intro{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);opacity:.7;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.section-intro::before{content:'';display:block;width:20px;height:1px;background:var(--rose)}
+
+/* BOTTOM NAV */
+#bot{position:fixed;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:center;gap:.7rem;background:var(--bg);border-top:1px solid var(--border);z-index:200;backdrop-filter:blur(14px)}
+.nb{width:34px;height:30px;border-radius:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.nb:hover{background:var(--surface2);border-color:var(--rose)}
+.nb:active{transform:scale(.88)}
+.nb:disabled{opacity:.15;pointer-events:none}
+#dots{display:flex;align-items:center;gap:3px;max-width:240px;overflow:hidden}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;flex-shrink:0;transition:background .3s,width .3s,border-radius .3s}
+.dot.active{background:var(--rose);width:16px;border-radius:3px}
+.dot:hover:not(.active){background:var(--text-muted)}
+
+/* SEARCH */
+#sbox{position:fixed;bottom:7px;left:.8rem;display:flex;align-items:center;gap:.35rem;z-index:210}
+#slbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text-muted);letter-spacing:.07em}
+#sinp{width:46px;padding:.25rem .45rem;border-radius:6px;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.6rem;text-align:center;outline:none;-moz-appearance:textfield;transition:.2s}
+#sinp::-webkit-inner-spin-button,#sinp::-webkit-outer-spin-button{-webkit-appearance:none}
+#sinp:focus{border-color:var(--rose);width:58px}
+#hint{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text-muted);letter-spacing:.08em;pointer-events:none;white-space:nowrap;opacity:1;transition:opacity 1s;z-index:210}
+#hint.gone{opacity:0}
+
+/* PHOTO SLOT */
+.photo-slot{background:var(--photo-bg);border:2px dashed var(--photo-border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;position:relative;overflow:hidden;width:100%;height:100%}
+.photo-slot svg{width:22px;height:22px;stroke:var(--rose);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.7}
+.photo-slot-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--rose);letter-spacing:.08em;text-align:center;padding:0 1rem;line-height:1.7}
+.photo-slot-hint{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text-muted);letter-spacing:.06em;text-align:center;padding:0 1rem}
+.photo-slot-tip{font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--rose);opacity:.55;margin-top:.25rem;letter-spacing:.05em}
+
+/* ══════════════ SLIDE TYPES ══════════════ */
+
+/* TITLE */
+.s-title .card{flex-direction:row}
+.title-left{flex:1;padding:2.8rem 3rem;display:flex;flex-direction:column;justify-content:center}
+.title-right{width:40%;flex-shrink:0;padding:.8rem .8rem .8rem 0}
+.title-event{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);margin-bottom:1.4rem;display:flex;align-items:center;gap:.5rem}
+.title-event::before{content:'';display:block;width:22px;height:1px;background:var(--rose)}
+.title-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;background:linear-gradient(140deg,var(--text) 0%,var(--rose) 55%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.8rem}
+.title-sub{font-size:clamp(.82rem,1.5vw,.98rem);color:var(--text-muted);line-height:1.7;margin-bottom:2rem;font-family:'Cormorant Garamond',serif;font-style:italic}
+.title-presenter{border-top:1px solid var(--border2);padding-top:1.4rem;display:flex;flex-direction:column;gap:.2rem}
+.title-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--text)}
+.title-role{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--rose);letter-spacing:.1em}
+.title-org{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text-muted);letter-spacing:.05em;margin-top:.1rem}
+
+/* OPENER (TED hook) */
+.s-opener .card{justify-content:center;align-items:center;text-align:center;padding:3rem 7rem}
+.opener-pre{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:2rem;opacity:.75}
+.opener-big{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.8rem,4.8vw,3.8rem);font-weight:400;line-height:1.3;color:var(--text);max-width:860px;margin-bottom:1.8rem}
+.opener-big strong{font-style:normal;font-weight:700;color:var(--rose);-webkit-text-fill-color:var(--rose)}
+.opener-note{font-size:clamp(.88rem,1.5vw,1rem);color:var(--text-muted);font-style:italic;font-family:'Cormorant Garamond',serif}
+
+/* STORY (photo left, text right) */
+.s-story .card{flex-direction:row}
+.story-photo-wrap{width:40%;flex-shrink:0;padding:.8rem 0 .8rem .8rem}
+.story-content{flex:1;padding:2.4rem 2.8rem;display:flex;flex-direction:column;justify-content:center}
+.story-content .tag{margin-bottom:.9rem}
+.story-content .stitle{font-size:clamp(1.5rem,2.8vw,2.3rem);margin:.5rem 0}
+.story-body{font-family:'Cormorant Garamond',serif;font-size:clamp(1.08rem,1.8vw,1.28rem);color:var(--text-sub);line-height:1.75;margin-top:.8rem}
+.story-body em{color:var(--rose);font-style:italic}
+
+/* BIG STAT */
+.s-stat .card{flex-direction:row}
+.stat-left{flex:1;padding:2.8rem 3rem;display:flex;flex-direction:column;justify-content:center}
+.stat-left .tag{margin-bottom:1.2rem}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,12vw,9rem);font-weight:700;line-height:1;color:var(--rose);letter-spacing:-.02em}
+.stat-label{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:600;color:var(--text);margin:.35rem 0 1rem;line-height:1.2}
+.stat-body{font-size:clamp(.92rem,1.5vw,1.06rem);color:var(--text-sub);line-height:1.72;max-width:440px}
+.stat-source{margin-top:auto;padding-top:1.4rem;font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--text-muted);letter-spacing:.04em}
+.stat-right{width:38%;flex-shrink:0;padding:.8rem .8rem .8rem 0;display:flex;flex-direction:column;gap:.8rem}
+.stat-photo-wrap{flex:1;min-height:0}
+.mini-list{display:flex;flex-direction:column;gap:.6rem;flex-shrink:0}
+.mini-item{padding:.8rem 1rem;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;gap:.8rem;align-items:flex-start}
+.mini-val{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;color:var(--rose);min-width:48px;line-height:1;flex-shrink:0}
+.mini-lbl{font-size:.83rem;color:var(--text-sub);line-height:1.4}
+
+/* QUOTE */
+.s-quote .card{flex-direction:row}
+.quote-bar{width:5px;flex-shrink:0;background:linear-gradient(to bottom,var(--rose),var(--gold))}
+.quote-body{flex:1;padding:3rem 4rem;display:flex;flex-direction:column;justify-content:center}
+.quote-mark{font-family:'Cormorant Garamond',serif;font-size:6.5rem;line-height:.7;color:var(--rose);opacity:.16;user-select:none;margin-bottom:.9rem}
+.quote-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.4rem,3vw,2.4rem);line-height:1.4;color:var(--text);margin-bottom:1.4rem}
+.quote-attr{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
+.quote-photo-wrap{width:28%;flex-shrink:0;padding:.8rem .8rem .8rem 0}
+
+/* GRID CARDS */
+.s-grid .card{padding:2rem 2.5rem}
+.s-grid .stitle{font-size:clamp(1.5rem,2.6vw,2.1rem);margin:.4rem 0 .6rem}
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;margin-top:.5rem}
+.igc{background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:1.3rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;transition:transform .2s,border-color .2s}
+.igc:hover{transform:translateY(-3px);border-color:var(--rose)}
+.igc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.igc-icon svg{width:17px;height:17px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.igc-title{font-family:'Cormorant Garamond',serif;font-size:clamp(.95rem,1.7vw,1.2rem);font-weight:700;color:var(--text);line-height:1.2}
+.igc-body{font-size:clamp(.8rem,1.25vw,.94rem);color:var(--text-muted);line-height:1.55}
+
+/* TWO COL */
+.s-twocol .card{flex-direction:row}
+.tc-left{flex:1;padding:2.4rem 2.8rem;display:flex;flex-direction:column;justify-content:center}
+.tc-left .tag{margin-bottom:.8rem}
+.tc-left .stitle{font-size:clamp(1.4rem,2.6vw,2.1rem);margin:.5rem 0 1rem}
+.tc-right{width:42%;flex-shrink:0;padding:.8rem .8rem .8rem 0}
+.bullet-list{display:flex;flex-direction:column;gap:.65rem}
+.bullet-item{display:flex;align-items:flex-start;gap:.8rem;padding:.8rem .95rem;border-radius:10px;background:var(--surface2);border:1px solid var(--border)}
+.bullet-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:.45rem}
+.bullet-text{font-size:clamp(.9rem,1.45vw,1.05rem);color:var(--text-sub);line-height:1.5}
+
+/* TIMELINE */
+.s-timeline .card{padding:2rem 2.5rem 2rem 2.8rem}
+.s-timeline .stitle{font-size:clamp(1.4rem,2.5vw,2rem);margin:.4rem 0 .5rem}
+.tl-wrap{display:flex;flex-direction:column;flex:1;margin-top:.7rem;position:relative;padding-left:1.8rem}
+.tl-wrap::before{content:'';position:absolute;left:.55rem;top:.4rem;bottom:.4rem;width:2px;background:linear-gradient(to bottom,var(--rose),var(--gold),var(--teal));border-radius:2px}
+.tl-item{display:flex;gap:1rem;align-items:flex-start;position:relative}
+.tl-item+.tl-item{margin-top:.8rem}
+.tl-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;position:absolute;left:-2.15rem;top:.25rem;border:2px solid var(--bg);box-shadow:0 0 7px currentColor}
+.tl-content{flex:1}
+.tl-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.18rem}
+.tl-title{font-family:'Cormorant Garamond',serif;font-size:clamp(.95rem,1.7vw,1.25rem);font-weight:700;color:var(--text);margin-bottom:.2rem}
+.tl-body{font-size:clamp(.78rem,1.28vw,.92rem);color:var(--text-muted);line-height:1.55}
+
+/* COMPARE */
+.s-compare .card{padding:1.8rem 2.5rem;gap:.7rem}
+.compare-hdr .stitle{font-size:clamp(1.6rem,3.2vw,2.6rem)}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;flex:1;position:relative}
+.compare-vs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:var(--surface3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:var(--rose);z-index:2}
+.compare-col{display:flex;flex-direction:column;gap:.5rem}
+.compare-col-title{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.65rem 1rem;border-radius:9px;text-align:center;font-weight:600;margin-bottom:.15rem}
+.col-a .compare-col-title{background:rgba(93,232,204,.1);color:var(--teal);border:1px solid rgba(93,232,204,.28)}
+.col-b .compare-col-title{background:rgba(249,168,201,.1);color:var(--rose);border:1px solid rgba(249,168,201,.28)}
+.compare-item{padding:.6rem .95rem;border-radius:9px;border:1px solid var(--border);background:var(--surface2);font-size:clamp(.85rem,1.35vw,.97rem);color:var(--text-sub);line-height:1.4;display:flex;align-items:center}
+
+/* CTA STATEMENT */
+.s-cta .card{flex-direction:row}
+.cta-left{flex:1;padding:2.8rem 3.2rem;display:flex;flex-direction:column;justify-content:center}
+.cta-num{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--rose);opacity:.65;margin-bottom:1.6rem}
+.cta-big{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.4rem,3.2vw,2.7rem);font-weight:600;line-height:1.3;color:var(--text);margin-bottom:1rem}
+.cta-big strong{color:var(--rose);font-style:normal;-webkit-text-fill-color:var(--rose)}
+.cta-body{font-size:clamp(.88rem,1.4vw,1.02rem);color:var(--text-muted);line-height:1.7;max-width:480px}
+.cta-right{width:38%;flex-shrink:0;padding:.8rem .8rem .8rem 0}
+
+/* CERTIFICATES SLIDE */
+.s-certs .card{padding:2rem 2.5rem}
+.s-certs .stitle{font-size:clamp(1.4rem,2.5vw,2rem);margin:.4rem 0 .6rem}
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:.9rem;flex:1;margin-top:.5rem}
+.cert-slot{border-radius:12px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.cert-frame{flex:1;background:var(--photo-bg);border:2px dashed var(--photo-border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;min-height:0}
+.cert-frame svg{width:20px;height:20px;stroke:var(--rose);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.65}
+.cert-frame-lbl{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--rose);letter-spacing:.08em;text-align:center;padding:0 .5rem}
+.cert-frame-hint{font-family:'JetBrains Mono',monospace;font-size:.46rem;color:var(--text-muted);text-align:center;padding:0 .5rem;line-height:1.5}
+.cert-caption{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text-muted);letter-spacing:.06em;padding:.35rem .1rem 0;text-align:center;line-height:1.4}
+
+/* EVENT GALLERY */
+.s-gallery .card{padding:2rem 2.5rem}
+.s-gallery .stitle{font-size:clamp(1.4rem,2.5vw,2rem);margin:.4rem 0 .6rem}
+.gallery-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:.8rem;flex:1;margin-top:.5rem}
+.gallery-slot{background:var(--photo-bg);border:2px dashed var(--photo-border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;position:relative;overflow:hidden;min-height:0}
+.gallery-slot.span2{grid-row:span 2}
+.gallery-slot svg{width:18px;height:18px;stroke:var(--rose);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.6}
+.gallery-slot-lbl{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--rose);letter-spacing:.07em;text-align:center;padding:0 .6rem}
+.gallery-slot-hint{font-family:'JetBrains Mono',monospace;font-size:.46rem;color:var(--text-muted);text-align:center;padding:0 .6rem;line-height:1.5}
+
+/* SMALL GALLERY (2-up) */
+.s-gallery2 .card{flex-direction:row;padding:0}
+.g2-left{flex:1;padding:2.4rem 2.8rem;display:flex;flex-direction:column;justify-content:center}
+.g2-left .tag{margin-bottom:.8rem}
+.g2-left .stitle{font-size:clamp(1.4rem,2.5vw,2rem);margin:.5rem 0 1rem}
+.g2-body{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,1.7vw,1.18rem);color:var(--text-sub);line-height:1.72}
+.g2-body em{color:var(--rose)}
+.g2-right{width:44%;flex-shrink:0;padding:.8rem .8rem .8rem 0;display:flex;flex-direction:column;gap:.7rem}
+.g2-photo{flex:1;min-height:0}
+
+/* THANK YOU */
+.s-ty .card{flex-direction:row}
+.ty-left{flex:1;padding:2.8rem 3.2rem;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.ty-big{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;font-style:italic;line-height:1;background:linear-gradient(135deg,var(--text) 0%,var(--rose) 42%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:.5rem 0 .6rem}
+.ty-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.88rem,1.7vw,1.2rem);color:var(--text-sub);margin-bottom:2rem}
+.ty-div{width:40px;height:1px;background:linear-gradient(90deg,var(--rose),transparent);margin-bottom:2rem}
+.ty-email{display:inline-flex;align-items:center;gap:.55rem;padding:.65rem 1.5rem;border-radius:9px;background:var(--surface2);border:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--rose);text-decoration:none;transition:.2s}
+.ty-email:hover{background:var(--surface3);border-color:var(--rose);transform:translateY(-2px)}
+.ty-email svg{width:14px;height:14px;stroke:var(--rose);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ty-role{margin-top:1.1rem;font-family:'JetBrains Mono',monospace;font-size:.53rem;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
+.ty-role span{color:var(--rose)}
+.ty-right{width:40%;flex-shrink:0;padding:.8rem .8rem .8rem 0}
+
+/* SPARKS */
+.ty-sparks{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ty-spark{position:absolute;border-radius:50%;opacity:0;animation:ty-rise linear infinite}
+@keyframes ty-rise{0%{opacity:0;transform:translateY(0) scale(1)}15%{opacity:.7}85%{opacity:.25}100%{opacity:0;transform:translateY(-90px) translateX(var(--dx)) scale(.2)}}
+
+/* SLIDE IN ANIMATIONS */
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes su{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+.slide.active .tag{animation:fi .38s .05s both}
+.slide.active .stitle{animation:fi .38s .1s both}
+.slide.active .divider{animation:fi .38s .15s both}
+.slide.active .bullet-item:nth-child(1){animation:fi .32s .16s both}
+.slide.active .bullet-item:nth-child(2){animation:fi .32s .24s both}
+.slide.active .bullet-item:nth-child(3){animation:fi .32s .32s both}
+.slide.active .bullet-item:nth-child(4){animation:fi .32s .40s both}
+.slide.active .igc:nth-child(1){animation:su .32s .14s both}
+.slide.active .igc:nth-child(2){animation:su .32s .21s both}
+.slide.active .igc:nth-child(3){animation:su .32s .28s both}
+.slide.active .igc:nth-child(4){animation:su .32s .35s both}
+.slide.active .igc:nth-child(5){animation:su .32s .42s both}
+.slide.active .igc:nth-child(6){animation:su .32s .49s both}
+.slide.active .tl-item:nth-child(1){animation:fi .32s .15s both}
+.slide.active .tl-item:nth-child(2){animation:fi .32s .25s both}
+.slide.active .tl-item:nth-child(3){animation:fi .32s .35s both}
+.slide.active .tl-item:nth-child(4){animation:fi .32s .45s both}
+.slide.active .tl-item:nth-child(5){animation:fi .32s .55s both}
+.slide.active .cert-slot:nth-child(1){animation:su .32s .12s both}
+.slide.active .cert-slot:nth-child(2){animation:su .32s .20s both}
+.slide.active .cert-slot:nth-child(3){animation:su .32s .28s both}
+.slide.active .cert-slot:nth-child(4){animation:su .32s .36s both}
+.slide.active .cert-slot:nth-child(5){animation:su .32s .44s both}
+.slide.active .cert-slot:nth-child(6){animation:su .32s .52s both}
+.slide.active .gallery-slot{animation:su .4s .1s both}
+.slide.active .stat-num{animation:su .48s .08s both}
+.slide.active .opener-big{animation:fi .55s .12s both}
+.slide.active .quote-text{animation:fi .48s .1s both}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  #top{height:40px;padding:0 .8rem}
+  #sw{top:40px;bottom:40px}
+  .s-title .card,.s-story .card,.s-stat .card,.s-quote .card,.s-cta .card,.s-twocol .card,.s-ty .card,.s-gallery2 .card{flex-direction:column}
+  .title-right,.story-photo-wrap,.stat-right,.quote-photo-wrap,.cta-right,.tc-right,.ty-right,.g2-right{width:100%;padding:.5rem .5rem 0}
+  .title-right{min-height:160px}
+  .story-photo-wrap,.stat-right,.quote-photo-wrap,.cta-right,.tc-right,.ty-right,.g2-right{min-height:150px}
+  .title-left,.story-content,.stat-left,.quote-body,.cta-left,.tc-left,.ty-left,.g2-left{padding:1.4rem 1.2rem}
+  .s-opener .card{padding:1.8rem 1.5rem}
+  .opener-big{font-size:clamp(1.2rem,5.5vw,1.8rem)}
+  .ig,.cert-grid{grid-template-columns:1fr 1fr;gap:.6rem}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:.6rem}
+  .gallery-slot.span2{grid-row:auto}
+  .s-compare .card{padding:1.2rem}
+  .compare-grid{grid-template-columns:1fr;gap:.4rem}
+  .compare-vs{display:none}
+  .s-timeline .card{padding:1.3rem 1.1rem 1.3rem 1.7rem}
+  #bot{height:40px}
+  .nb{width:30px;height:26px}
+  #dots{max-width:80px}
+  #slbl{display:none}
+}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="prog"></div>
+
+<header id="top">
+  <div id="top-l">She's the IT: Women in Tech · LITS · April 10, 2026</div>
+  <div id="top-r">
+    <div id="sc"><b id="cn">1</b> / <span id="tn">28</span></div>
+    <button class="icon-btn" id="fsb" title="Fullscreen (F)">
+      <svg viewBox="0 0 24 24">
+        <path class="ic-expand" d="M8 3H5a2 2 0 0 0-2 2v3"/><path class="ic-expand" d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+        <path class="ic-expand" d="M3 16v3a2 2 0 0 0 2 2h3"/><path class="ic-expand" d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+        <path class="ic-compress" d="M8 3v5H3"/><path class="ic-compress" d="M21 8h-5V3"/>
+        <path class="ic-compress" d="M3 16h5v5"/><path class="ic-compress" d="M16 21v-5h5"/>
+      </svg>
+    </button>
+    <button id="tog" aria-label="Toggle theme"></button>
+  </div>
+</header>
+
+<div class="nz L" id="nzL"><div class="arr">&#8592;</div></div>
+<div class="nz R" id="nzR"><div class="arr">&#8594;</div></div>
+<main id="sw"></main>
+<div id="hint">arrow keys · swipe · click edges to navigate</div>
+<div id="sbox"><span id="slbl">SLIDE</span><input id="sinp" type="number" min="1" placeholder="01"></div>
+<nav id="bot">
+  <button class="nb" id="bF">&#9646;&#9646;</button>
+  <button class="nb" id="bP">&#8592;</button>
+  <div id="dots"></div>
+  <button class="nb" id="bN">&#8594;</button>
+  <button class="nb" id="bL">&#9646;&#9646;</button>
+</nav>
+
+<script>
+/* STARFIELD */
+(()=>{
+  const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+  let W,H,stars=[];
+  const rsz=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};
+  addEventListener('resize',rsz);rsz();
+  const cols=['#f9a8c9','#c4b5fd','#f0c070','#5de8cc','#fda4af','#e9d5ff'];
+  for(let i=0;i<180;i++) stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.1,op:Math.random()*.45+.07,ts:Math.random()*.025+.003,tp:Math.random()*Math.PI*2,col:cols[Math.floor(Math.random()*cols.length)]});
+  let t=0;
+  const draw=()=>{cx.clearRect(0,0,W,H);t+=.016;stars.forEach(s=>{const tw=Math.sin(t*s.ts*60+s.tp)*.28+.72;cx.beginPath();cx.arc(s.x*W,s.y*H,s.r*tw,0,Math.PI*2);cx.fillStyle=s.col;cx.globalAlpha=s.op*tw;cx.fill()});cx.globalAlpha=1;requestAnimationFrame(draw)};
+  draw();
+})();
+
+/* ICONS */
+const IC={
+  camera:`<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>`,
+  img:`<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>`,
+  award:`<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>`,
+  cert:`<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/>`,
+  heart:`<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>`,
+  shield:`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`,
+  mic:`<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>`,
+  globe:`<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>`,
+  bulb:`<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>`,
+  users:`<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+  trending:`<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>`,
+  star:`<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+  zap:`<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`,
+  handshake:`<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-1"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>`,
+  mail:`<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>`,
+  compass:`<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>`,
+  refresh:`<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>`,
+};
+const mkSvg=(n,col,sz=17)=>`<svg viewBox="0 0 24 24" style="width:${sz}px;height:${sz}px;stroke:${col};fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round">${IC[n]||IC.bulb}</svg>`;
+
+/* PHOTO SLOT */
+function ps(lbl,hint,style=''){
+  return `<div class="photo-slot" style="${style}">
+    ${mkSvg('camera','var(--rose)',22)}
+    <div class="photo-slot-lbl">${lbl}</div>
+    <div class="photo-slot-hint">${hint}</div>
+    <div class="photo-slot-tip">📎 replace with &lt;img src="..."&gt;</div>
+  </div>`;
+}
+
+/* CERT SLOT */
+function cs(lbl,hint){
+  return `<div class="cert-slot">
+    <div class="cert-frame">
+      ${mkSvg('cert','var(--rose)',20)}
+      <div class="cert-frame-lbl">${lbl}</div>
+      <div class="cert-frame-hint">${hint}</div>
+    </div>
+    <div class="cert-caption">${lbl}</div>
+  </div>`;
+}
+
+/* GALLERY SLOT */
+function gs(lbl,hint,span2=false){
+  return `<div class="gallery-slot${span2?' span2':''}">
+    ${mkSvg('img','var(--rose)',18)}
+    <div class="gallery-slot-lbl">${lbl}</div>
+    <div class="gallery-slot-hint">${hint}</div>
+  </div>`;
+}
+
+/* SLIDES DATA */
+const slides=[
+/* 1 TITLE */
+{type:'title'},
+/* 2 HOOK */
+{type:'opener',
+ pre:'A question before we begin',
+ big:'Think of the first person who showed you what a career in tech could look like. <strong>Was she a woman?</strong>',
+ note:'For most of us — the answer is no. That is exactly why we are here today.'},
+/* 3 ABOUT ME */
+{type:'story',
+ tag:'About the Speaker',title:'From Student to President',
+ body:`I was once exactly where you are right now — an IT student wondering if I truly belonged in this industry. I wondered if the room had space for someone who looked like me. It does. And not just space — <em>it needs us.</em> I am Precious Manucom, President of DEVCON Manila. Everything I know about leadership, I learned by choosing to stay when leaving would have been easier.`,
+ photo:{lbl:'PHOTO: Precious Manucom',hint:'Headshot or onstage speaking photo'}},
+/* 4 DEVCON */
+{type:'gallery2',
+ tag:'DEVCON Manila',title:'Who We Are',
+ body:`DEVCON Manila is the Philippines' largest developer community. We run events, mentorship programs, and initiatives specifically designed so that women in tech don't just enter the field — <em>they lead it.</em> If you are looking for a community after Letran, we want to be it.`,
+ photos:[
+   {lbl:'DEVCON Manila Event',hint:'Community meetup or conference photo'},
+   {lbl:'DEVCON Team',hint:'Officers or members photo'},
+ ]},
+/* 5 AGENDA */
+{type:'timeline',
+ tag:'Today\'s Agenda',title:'What We\'ll Cover in 50 Minutes',
+ items:[
+   {col:'#f9a8c9',label:'Part 1 — 9:05',title:'The State of Women in Philippine Tech',body:'Data, realities, and why the gap still exists despite our pipeline.'},
+   {col:'#c4b5fd',label:'Part 2 — 9:15',title:'The Six Walls Women Hit',body:'Confidence, belonging, retention, networks, voice, and mentorship.'},
+   {col:'#f0c070',label:'Part 3 — 9:28',title:'What Inclusive Communities Actually Look Like',body:'From student orgs to industry teams — the habits that change culture.'},
+   {col:'#5de8cc',label:'Part 4 — 9:40',title:'Your Action Plan',body:'Six things you can do this week, starting with today.'},
+   {col:'#f9a8c9',label:'Q&A — 9:50',title:'Open Floor',body:'Your questions, your stories, your turn to talk.'},
+ ]},
+/* 6 THE NUMBERS */
+{type:'stat',
+ tag:'Part 1: The Numbers',num:'27%',
+ label:'of the Philippine tech workforce are women',
+ body:'We graduate more women in IT than almost any country in Southeast Asia. Yet we still lose them in the pipeline. The problem is not supply — it is what happens after they enter the room.',
+ source:'DOST-CHED Survey · Philippine Statistics Authority 2024',
+ minis:[{v:'56%',l:'Filipino IT grads who are women'},{v:'3 in 10',l:'Women who leave tech within 5 years'},{v:'12%',l:'Women in senior tech leadership'}],
+ photo:{lbl:'PHOTO: Audience or data visual',hint:'Event photo or infographic slide'}},
+/* 7 THE RETENTION CRISIS */
+{type:'twocol',
+ tag:'The Retention Crisis',title:'We Enter. Then We Leave.',
+ bullets:[
+   {text:'Entry-level numbers look great — women make up 40-50% of entry roles in Philippine tech.',col:'#5de8cc'},
+   {text:'By mid-career, that number drops to 28%. By senior levels, we are at 12%.',col:'#f9a8c9'},
+   {text:'This is not a pipeline problem. This is a culture problem.',col:'#c4b5fd'},
+   {text:'Companies spend millions hiring diverse talent, then nothing on keeping them.',col:'#f0c070'},
+ ],
+ photo:{lbl:'PHOTO: Women in workplace',hint:'Conference, office, or panel photo'}},
+/* 8 OPENER 2 */
+{type:'opener',
+ pre:'Part 2: The Six Walls',
+ big:'Nobody tells you about the walls. They tell you to <strong>work harder, lean in, be confident.</strong> They never tell you the walls exist.',
+ note:'Let\'s name them — because you cannot dismantle a wall you cannot see.'},
+/* 9 THE 6 GAPS */
+{type:'grid',
+ tag:'The Six Walls',title:'Why Women Leave Tech',
+ cards:[
+   {icon:'shield',col:'#f9a8c9',title:'The Confidence Gap',body:'We second-guess ourselves more than equally-skilled male peers. Imposter syndrome is real — and it was taught to us.'},
+   {icon:'users',col:'#5de8cc',title:'The Belonging Gap',body:'When you never see yourself represented in leadership, you conclude you do not belong there. Representation is survival.'},
+   {icon:'trending',col:'#f0c070',title:'The Retention Gap',body:'Flexible work, fair pay, and mentorship are not perks — they are the baseline. Most companies treat them as luxuries.'},
+   {icon:'globe',col:'#c4b5fd',title:'The Network Gap',body:'Tech culture runs on informal networks. Women excluded from after-hours circles miss opportunities no job posting ever lists.'},
+   {icon:'mic',col:'#f9a8c9',title:'The Voice Gap',body:'Ideas get attributed to whoever repeats them loudest. In meetings, women get interrupted, ignored, then watched as their idea gets credited to someone else.'},
+   {icon:'bulb',col:'#5de8cc',title:'The Mentorship Gap',body:'You cannot be what you cannot see. Women in tech need mentors who have walked the road and sponsors who will open the door.'},
+ ]},
+/* 10 QUOTE */
+{type:'quote',
+ text:'"In a world that wants women to whisper, I choose to yell."',
+ attr:'— Luvvie Ajayi Jones, author & cultural critic',
+ photo:{lbl:'PHOTO: Speaker or community',hint:'Women in tech event, panel, or DEVCON photo'}},
+/* 11 PSYCH SAFETY */
+{type:'story',
+ tag:'Part 3: Inclusion in Practice',title:'Psychological Safety Is the Foundation',
+ body:`Google studied 180 teams for 5 years. The #1 predictor of team performance was not talent, experience, or tools. It was <em>psychological safety</em> — the belief that you will not be punished for speaking up. One dismissive response from a leader can silence a voice permanently. <em>Build rooms where people can be wrong out loud.</em>`,
+ photo:{lbl:'PHOTO: Team or meeting',hint:'Collaborative photo, workshop, or classroom'}},
+/* 12 SCHOOL VS INDUSTRY */
+{type:'compare',
+ tag:'Two Worlds',title:'School vs. Industry',
+ cols:[
+   {label:'Student Orgs (Now)',col:'teal',items:['Low stakes — fail and learn fast','Peer accountability, not hierarchy','Leadership roles are accessible','You choose your community']},
+   {label:'Industry Teams (Soon)',col:'rose',items:['High stakes — mistakes have costs','Formal hierarchy shapes who speaks','Leadership must be claimed, not given','You build your community from scratch']},
+ ]},
+/* 13 CTA 1 */
+{type:'cta',num:'01 / 04',
+ big:'The most radical thing a woman in tech can do is <strong>refuse to shrink.</strong>',
+ body:'Take the credit. Disagree in the meeting. Apply for the role you\'re 60% qualified for — your male counterpart applies at 40%. Your presence at the table changes what gets built at that table.',
+ photo:{lbl:'PHOTO: Women leading',hint:'Speaker onstage, award photo, or panel'}},
+/* 14 DEVCON EVENTS — GALLERY */
+{type:'gallery',
+ tag:'Community in Action',title:'What Inclusive Looks Like',
+ slots:[
+   {lbl:'Main Event Photo',hint:'Biggest DEVCON event photo — use as hero',span2:true},
+   {lbl:'Workshop / Talk',hint:'Breakout session or speaker photo'},
+   {lbl:'Community Moment',hint:'Candid networking or group photo'},
+   {lbl:'Panel / Stage',hint:'Women on stage or panel'},
+   {lbl:'LITS / Student Event',hint:'Letran org event or classroom'},
+ ]},
+/* 15 MENTORSHIP */
+{type:'timeline',
+ tag:'Part 4: Your Roadmap',title:'Building Your Support System',
+ items:[
+   {col:'#f9a8c9',label:'Right Now — Student',title:'Find Your First Mentor',body:'Look inside LITS, DEVCON, and your faculty. Ask someone whose path inspires you. The worst they can say is no.'},
+   {col:'#c4b5fd',label:'Year 1-2 — Entry',title:'Be a Mentee AND a Peer',body:'Learn fast. Document your wins. And immediately start helping the person one step behind you.'},
+   {col:'#f0c070',label:'Year 3-5 — Mid',title:'Become the Mentor',body:'You have more to give than you think, sooner than you think. Set recurring 1:1s and commit to someone else\'s growth.'},
+   {col:'#5de8cc',label:'Year 5+ — Senior',title:'Sponsor, Not Just Mentor',body:'Mentors give advice. Sponsors give opportunity. Put her name in the room when you are in the room.'},
+   {col:'#f9a8c9',label:'Always',title:'Stay in the Community',body:'Women who stay visible shape the industry. Come back. Bring others with you.'},
+ ]},
+/* 16 SIX ACTIONS */
+{type:'grid',
+ tag:'Your Action Plan',title:'Six Things You Can Do This Week',
+ cards:[
+   {icon:'star',col:'#f9a8c9',title:'Introduce Yourself Boldly',body:'"I\'m [Name], I build [thing]" — not "I\'m just a student, I kind of do coding." Own your identity.'},
+   {icon:'handshake',col:'#5de8cc',title:'Credit Others Loudly',body:'When someone\'s idea is used, name them. Build a culture where credit flows to the source.'},
+   {icon:'award',col:'#f0c070',title:'Apply Anyway',body:'Submit the application. Pitch the idea. Run for the position. The answer is always no if you never ask.'},
+   {icon:'users',col:'#c4b5fd',title:'Invite Quiet Voices',body:'In your next meeting: "I have not heard from you yet — what do you think?" Do this every time.'},
+   {icon:'trending',col:'#f9a8c9',title:'Keep a Brag Doc',body:'A running list of your wins. When imposter syndrome hits — and it will — open it and read.'},
+   {icon:'zap',col:'#5de8cc',title:'Join DEVCON Manila',body:'The women who will open doors for you are already in our community. Come find them.'},
+ ]},
+/* 17 QUOTE 2 */
+{type:'quote',
+ text:'"There is no limit to what we, as women, can accomplish."',
+ attr:'— Michelle Obama',
+ photo:{lbl:'PHOTO: Inspiring community',hint:'Women in tech, DEVCON, or event photo'}},
+/* 18 CTA 2 */
+{type:'cta',num:'02 / 04',
+ big:'Inclusion is not a metric. <strong>It\'s the day you walk into a room and don\'t have to translate yourself.</strong>',
+ body:'I spent two years of my career making myself smaller — speaking slowly, apologizing for opinions, shrinking. The day I stopped was the day I started leading.',
+ photo:{lbl:'PHOTO: Precious in action',hint:'Speaker photo, DEVCON event, or leadership moment'}},
+/* 19 CERTIFICATES — TEMPLATE SLIDE */
+{type:'certs',
+ tag:'My Credentials',title:'Certifications & Recognitions',
+ certs:[
+   {lbl:'Certificate 1',hint:'e.g. AWS Certified Developer'},
+   {lbl:'Certificate 2',hint:'e.g. Google UX Design'},
+   {lbl:'Certificate 3',hint:'e.g. Coursera Python'},
+   {lbl:'Certificate 4',hint:'e.g. DEVCON Speaker Award'},
+   {lbl:'Certificate 5',hint:'e.g. Women in Tech Leadership'},
+   {lbl:'Certificate 6',hint:'e.g. Any other certification'},
+ ]},
+/* 20 EVENT PHOTOS GALLERY */
+{type:'gallery',
+ tag:'Events & Community',title:'DEVCON Manila Highlights',
+ slots:[
+   {lbl:'Featured Event',hint:'Your biggest / most recent DEVCON event',span2:true},
+   {lbl:'Speaker Moment',hint:'You speaking or presenting onstage'},
+   {lbl:'Community Photo',hint:'Group photo at event'},
+   {lbl:'Workshop / Hackathon',hint:'Technical event or hands-on workshop'},
+   {lbl:'Award / Recognition',hint:'Receiving award or certificate'},
+ ]},
+/* 21 LITS SPECIFIC */
+{type:'gallery2',
+ tag:'For LITS Students',title:'Your Next Steps at Letran',
+ body:`You are not just studying IT — you are building the next generation of Filipino tech leaders. <em>Every org event you run, every member you welcome, every voice you amplify</em> — that is the work. Carry these habits from LITS into every team you ever lead.`,
+ photos:[
+   {lbl:'LITS Event Photo',hint:'Org event, induction, or general assembly'},
+   {lbl:'LITS Members / Officers',hint:'Team photo or officer lineup'},
+ ]},
+/* 22 CTA 3 */
+{type:'cta',num:'03 / 04',
+ big:'I want to live in a Philippines where the next generation of girls <strong>never questions whether tech is for them.</strong>',
+ body:'That future is not built by governments first. It is built by student leaders like you. In orgs like LITS. In conversations like this one. Right now, today.',
+ photo:{lbl:'PHOTO: Filipino women in tech',hint:'DEVCON, Letran, or community photo'}},
+/* 23 RETENTION SOLUTIONS */
+{type:'twocol',
+ tag:'What Companies Must Do',title:'The Retention Fix',
+ bullets:[
+   {text:'Stop hiring for diversity and managing for conformity. Inclusion means the culture adapts — not the women.',col:'#f9a8c9'},
+   {text:'Treat flexible work as infrastructure, not a privilege. Women pay a career penalty for using it today.',col:'#5de8cc'},
+   {text:'Make promotion criteria explicit and objective. "Executive presence" is often code for sounding like the men already in charge.',col:'#c4b5fd'},
+   {text:'Require sponsors, not just mentors. Put women\'s names in rooms they are not yet in.',col:'#f0c070'},
+ ],
+ photo:{lbl:'PHOTO: Diverse team',hint:'Workplace, panel, or industry event'}},
+/* 24 CERTIFICATES 2 — extra slide if needed */
+{type:'certs',
+ tag:'More Recognitions',title:'Awards & Milestones',
+ certs:[
+   {lbl:'Award / Recognition 1',hint:'e.g. Best Speaker Award'},
+   {lbl:'Award / Recognition 2',hint:'e.g. Community Builder Award'},
+   {lbl:'Award / Recognition 3',hint:'e.g. Women in Tech honoree'},
+   {lbl:'Event Milestone 1',hint:'e.g. DEVCON 10th Anniversary'},
+   {lbl:'Event Milestone 2',hint:'e.g. 1000 community members'},
+   {lbl:'Event Milestone 3',hint:'e.g. National conference'},
+ ]},
+/* 25 CTA 4 */
+{type:'cta',num:'04 / 04',
+ big:'You do not have to wait until you are ready. <strong>You are already the IT.</strong>',
+ body:'Ready is a myth. Every woman who changed tech history was figuring it out as she went. You have the skills, the community, and — starting today — the clarity. Go build.',
+ photo:{lbl:'PHOTO: Closing — Precious Manucom',hint:'Powerful final photo onstage or at DEVCON'}},
+/* 26 Q&A */
+{type:'opener',
+ pre:'9:50 AM · Open Floor',
+ big:'What questions do you have? <strong>This is your time.</strong>',
+ note:'No question is too small. No experience is too early. Ask anything.'},
+/* 27 CONNECT */
+{type:'story',
+ tag:'Stay Connected',title:'Join the Community',
+ body:`DEVCON Manila runs monthly meetups, workshops, and mentorship initiatives across the Philippines. Whether you are still in school or stepping into your first role — <em>there is a place for you here.</em> The women who will open doors for you are already in the community. Come find them.`,
+ photo:{lbl:'PHOTO: DEVCON community',hint:'Group photo or recent meetup'}},
+/* 28 THANK YOU */
+{type:'ty'},
+];
+
+/* BUILD SLIDES */
+const sw=document.getElementById('sw'),dotsEl=document.getElementById('dots');
+document.getElementById('tn').textContent=slides.length;
+
+function mkTag(t){return `<span class="tag">${t}</span>`}
+function mkTitle(t,s=''){return `<h2 class="stitle" style="${s}">${t}</h2>`}
+function mkDiv(){return `<div class="divider"></div>`}
+
+slides.forEach((d,i)=>{
+  const el=document.createElement('div');
+  el.dataset.i=i;
+
+  if(d.type==='title'){
+    el.className='slide s-title';
+    el.innerHTML=`<div class="card">
+      <div style="position:absolute;top:-60px;right:20%;width:60%;height:200px;background:radial-gradient(ellipse,rgba(249,168,201,.12) 0%,transparent 70%);pointer-events:none"></div>
+      <div class="title-left">
+        <div class="title-event">LITS Webinar &middot; April 10, 2026</div>
+        <h1 class="title-h">She\'s the IT:<br>Women in Tech</h1>
+        <p class="title-sub">Building inclusive tech communities &middot; Supporting women in the ecosystem &middot; Addressing the challenges of retention in the industry</p>
+        <div class="title-presenter">
+          <div class="title-name">Precious Manucom</div>
+          <div class="title-role">President &middot; DEVCON Manila</div>
+          <div class="title-org">Colegio de San Juan de Letran &middot; Letran Information Technology Society</div>
+        </div>
+      </div>
+      <div class="title-right">${ps('PHOTO: Precious Manucom','Professional headshot or speaking photo')}</div>
+    </div>`;
+
+  } else if(d.type==='opener'){
+    el.className='slide s-opener';
+    el.innerHTML=`<div class="card">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(249,168,201,.08) 0%,transparent 68%);pointer-events:none"></div>
+      <p class="opener-pre">${d.pre}</p>
+      <p class="opener-big">${d.big}</p>
+      <p class="opener-note">${d.note}</p>
+    </div>`;
+
+  } else if(d.type==='story'){
+    el.className='slide s-story';
+    el.innerHTML=`<div class="card">
+      <div class="story-photo-wrap">${ps(d.photo.lbl,d.photo.hint,'border-radius:12px')}</div>
+      <div class="story-content">
+        ${mkTag(d.tag)}
+        ${mkTitle(d.title)}
+        ${mkDiv()}
+        <p class="story-body">${d.body}</p>
+      </div>
+    </div>`;
+
+  } else if(d.type==='gallery2'){
+    el.className='slide s-gallery2';
+    const pHTML=(d.photos||[]).map(p=>`<div class="g2-photo">${ps(p.lbl,p.hint,'border-radius:10px')}</div>`).join('');
+    el.innerHTML=`<div class="card">
+      <div class="g2-left">
+        ${mkTag(d.tag)}
+        ${mkTitle(d.title)}
+        ${mkDiv()}
+        <p class="g2-body">${d.body}</p>
+      </div>
+      <div class="g2-right">${pHTML}</div>
+    </div>`;
+
+  } else if(d.type==='stat'){
+    el.className='slide s-stat';
+    const mHTML=(d.minis||[]).map(m=>`<div class="mini-item"><span class="mini-val">${m.v}</span><span class="mini-lbl">${m.l}</span></div>`).join('');
+    el.innerHTML=`<div class="card">
+      <div class="stat-left">
+        ${mkTag(d.tag)}
+        <div class="stat-num">${d.num}</div>
+        <div class="stat-label">${d.label}</div>
+        <p class="stat-body">${d.body}</p>
+        <div class="stat-source">${d.source}</div>
+      </div>
+      <div class="stat-right">
+        <div class="stat-photo-wrap">${ps(d.photo.lbl,d.photo.hint,'border-radius:10px')}</div>
+        <div class="mini-list">${mHTML}</div>
+      </div>
+    </div>`;
+
+  } else if(d.type==='quote'){
+    el.className='slide s-quote';
+    el.innerHTML=`<div class="card">
+      <div class="quote-bar"></div>
+      <div class="quote-body">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote-text">${d.text}</p>
+        <p class="quote-attr">${d.attr}</p>
+      </div>
+      <div class="quote-photo-wrap">${ps(d.photo.lbl,d.photo.hint,'border-radius:10px')}</div>
+    </div>`;
+
+  } else if(d.type==='grid'){
+    el.className='slide s-grid';
+    const gcHTML=(d.cards||[]).map(c=>`<div class="igc">
+      <div class="igc-icon" style="background:${c.col}18;border:1px solid ${c.col}2a">${mkSvg(c.icon,c.col)}</div>
+      <div class="igc-title">${c.title}</div>
+      <div class="igc-body">${c.body}</div>
+    </div>`).join('');
+    el.innerHTML=`<div class="card">
+      ${mkTag(d.tag)}
+      ${mkTitle(d.title)}
+      ${mkDiv()}
+      <div class="ig">${gcHTML}</div>
+    </div>`;
+
+  } else if(d.type==='twocol'){
+    el.className='slide s-twocol';
+    const bHTML=(d.bullets||[]).map(b=>`<div class="bullet-item">
+      <div class="bullet-dot" style="background:${b.col}"></div>
+      <span class="bullet-text">${b.text}</span>
+    </div>`).join('');
+    el.innerHTML=`<div class="card">
+      <div class="tc-left">
+        ${mkTag(d.tag)}
+        ${mkTitle(d.title)}
+        ${mkDiv()}
+        <div class="bullet-list">${bHTML}</div>
+      </div>
+      <div class="tc-right">${ps(d.photo.lbl,d.photo.hint,'border-radius:12px')}</div>
+    </div>`;
+
+  } else if(d.type==='timeline'){
+    el.className='slide s-timeline';
+    const tlHTML=(d.items||[]).map(it=>`<div class="tl-item">
+      <div class="tl-dot" style="background:${it.col};color:${it.col}"></div>
+      <div class="tl-content">
+        <div class="tl-label" style="color:${it.col}">${it.label}</div>
+        <div class="tl-title">${it.title}</div>
+        <div class="tl-body">${it.body}</div>
+      </div>
+    </div>`).join('');
+    el.innerHTML=`<div class="card">
+      ${mkTag(d.tag)}
+      ${mkTitle(d.title)}
+      ${mkDiv()}
+      <div class="tl-wrap">${tlHTML}</div>
+    </div>`;
+
+  } else if(d.type==='compare'){
+    el.className='slide s-compare';
+    const colHTML=(c,side)=>`<div class="compare-col col-${side}">
+      <div class="compare-col-title">${c.label}</div>
+      ${c.items.map(it=>`<div class="compare-item">${it}</div>`).join('')}
+    </div>`;
+    el.innerHTML=`<div class="card">
+      <div class="compare-hdr">${mkTag(d.tag)}${mkTitle(d.title)}</div>
+      <div class="compare-grid">
+        ${colHTML(d.cols[0],'a')}
+        ${colHTML(d.cols[1],'b')}
+        <div class="compare-vs">VS</div>
+      </div>
+    </div>`;
+
+  } else if(d.type==='cta'){
+    el.className='slide s-cta';
+    el.innerHTML=`<div class="card">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 35% 50%,rgba(249,168,201,.07) 0%,transparent 65%);pointer-events:none"></div>
+      <div class="cta-left">
+        <div class="cta-num">${d.num}</div>
+        <p class="cta-big">${d.big}</p>
+        <p class="cta-body">${d.body}</p>
+      </div>
+      <div class="cta-right">${ps(d.photo.lbl,d.photo.hint,'border-radius:12px')}</div>
+    </div>`;
+
+  } else if(d.type==='certs'){
+    el.className='slide s-certs';
+    const cHTML=(d.certs||[]).map(c=>cs(c.lbl,c.hint)).join('');
+    el.innerHTML=`<div class="card">
+      ${mkTag(d.tag)}
+      ${mkTitle(d.title)}
+      ${mkDiv()}
+      <div class="cert-grid">${cHTML}</div>
+    </div>`;
+
+  } else if(d.type==='gallery'){
+    el.className='slide s-gallery';
+    const gHTML=(d.slots||[]).map(s=>gs(s.lbl,s.hint,s.span2)).join('');
+    el.innerHTML=`<div class="card">
+      ${mkTag(d.tag)}
+      ${mkTitle(d.title)}
+      ${mkDiv()}
+      <div class="gallery-grid">${gHTML}</div>
+    </div>`;
+
+  } else if(d.type==='ty'){
+    el.className='slide s-ty';
+    const sparks=Array.from({length:16},(_,j)=>{
+      const c=['#f9a8c9','#c4b5fd','#f0c070','#5de8cc','#fda4af'][j%5];
+      return `<div class="ty-spark" style="left:${Math.random()*80+10}%;bottom:${Math.random()*30+5}%;width:${Math.random()*5+3}px;height:${Math.random()*5+3}px;background:${c};--dx:${(Math.random()-.5)*80}px;animation-duration:${Math.random()*3+2.5}s;animation-delay:${Math.random()*4}s"></div>`;
+    }).join('');
+    el.innerHTML=`<div class="card">
+      <div class="ty-sparks">${sparks}</div>
+      <div class="ty-left">
+        ${mkTag('Thank You')}
+        <div class="ty-big">Go Build.</div>
+        <div class="ty-sub">She\'s not the future. She\'s here. She\'s the IT.</div>
+        <div class="ty-div"></div>
+        <a class="ty-email" href="mailto:pmanucom@devcon.ph">${mkSvg('mail','var(--rose)',14)} pmanucom@devcon.ph</a>
+        <div class="ty-role">Precious Manucom &middot; President &middot; <span>DEVCON Manila</span></div>
+        <div style="margin-top:.8rem;font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text-muted);letter-spacing:.06em">Letran Information Technology Society &middot; April 10, 2026</div>
+      </div>
+      <div class="ty-right">${ps('PHOTO: Closing photo','Final powerful image of Precious Manucom','border-radius:0 18px 18px 0;border:none;border-left:1px solid var(--border2)')}</div>
+    </div>`;
+  }
+
+  sw.appendChild(el);
+});
+
+/* DOTS */
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.addEventListener('click',()=>go(i));
+  dotsEl.appendChild(d);
+});
+
+/* NAV */
+let cur=0,busy=false;
+function go(i){
+  const tot=document.querySelectorAll('.slide').length;
+  if(busy||i===cur||i<0||i>=tot)return;
+  busy=true;
+  const old=document.querySelector('.slide.active');
+  if(old){old.classList.remove('active');old.classList.add('out');setTimeout(()=>old.classList.remove('out'),560)}
+  cur=i;
+  document.querySelectorAll('.slide')[cur].classList.add('active');
+  document.getElementById('cn').textContent=cur+1;
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===cur));
+  document.getElementById('prog').style.width=((cur/(tot-1))*100)+'%';
+  upd();setTimeout(()=>busy=false,560);
+}
+function upd(){
+  const tot=document.querySelectorAll('.slide').length;
+  document.getElementById('bP').disabled=cur===0;
+  document.getElementById('bF').disabled=cur===0;
+  document.getElementById('bN').disabled=cur===tot-1;
+  document.getElementById('bL').disabled=cur===tot-1;
+}
+['bP','bN','bF','bL'].forEach(id=>document.getElementById(id).addEventListener('click',()=>{
+  const tot=document.querySelectorAll('.slide').length;
+  if(id==='bP')go(cur-1);
+  else if(id==='bN')go(cur+1);
+  else if(id==='bF')go(0);
+  else go(tot-1);
+}));
+document.getElementById('nzL').addEventListener('click',()=>go(cur-1));
+document.getElementById('nzR').addEventListener('click',()=>go(cur+1));
+document.addEventListener('keydown',e=>{
+  const tot=document.querySelectorAll('.slide').length;
+  if(document.activeElement===document.getElementById('sinp'))return;
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+  if(e.key==='Home')go(0);if(e.key==='End')go(tot-1);
+  if(e.key==='f'||e.key==='F')toggleFS();
+});
+let tx=0,ty2=0;
+sw.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty2=e.touches[0].clientY},{passive:true});
+sw.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty2;if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>38){dx<0?go(cur+1):go(cur-1)}},{passive:true});
+document.getElementById('tog').addEventListener('click',()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark'});
+function toggleFS(){if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{})}else{document.exitFullscreen()}}
+document.getElementById('fsb').addEventListener('click',toggleFS);
+document.addEventListener('fullscreenchange',()=>{
+  const f=!!document.fullscreenElement;
+  document.querySelectorAll('.ic-expand').forEach(e=>e.style.display=f?'none':'');
+  document.querySelectorAll('.ic-compress').forEach(e=>e.style.display=f?'':'none');
+});
+const sinp=document.getElementById('sinp');
+sinp.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){const n=parseInt(sinp.value,10);const tot=document.querySelectorAll('.slide').length;if(!isNaN(n)&&n>=1&&n<=tot)go(n-1);sinp.value='';sinp.blur()}
+  if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))e.stopPropagation();
+});
+
+/* VERIFY JS CLEAN */
+document.querySelectorAll('.slide')[0].classList.add('active');
+document.getElementById('prog').style.width='0%';
+upd();
+setTimeout(()=>document.getElementById('hint').classList.add('gone'),5000);
+</script>
+</body>
+</html>
