@@ -1,6 +1,6 @@
 # She's the IT: Women in Tech
 ### A Presentation by Precious Manucom, President of DEVCON Manila
-Delivered at the Letran Information Technology Society (LITS) Webinar — April 10, 2026
+Delivered at the Letran Information Technology Society (LITS) Webinar — April 10, 2026!
 
 ---
 
